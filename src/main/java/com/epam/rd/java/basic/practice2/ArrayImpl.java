@@ -47,12 +47,13 @@ public class ArrayImpl implements Array {
 	
 	@Override
     public void add(Object element) {
+
         Object[] oldObjectBase = objectBase;
-        objectBase = new Object[objectBase.length + 1];
-        for(int i = 0; i < objectBase.length-1; i++){
+        objectBase = new Object[oldObjectBase.length + 1];
+        for(int i = 0; i < oldObjectBase.length; i++){
             objectBase[i] = oldObjectBase[i];
-        }
-        objectBase[objectBase.length-1] = element;
+        } objectBase[objectBase.length-1] = element;
+
 
     }
 
