@@ -16,7 +16,7 @@ public class ArrayImpl implements Array {
 
     @Override
     public void clear() {
-        objectBase = new Object[objectBase.length];
+        objectBase = new Object[0];
     }
 
 	@Override
