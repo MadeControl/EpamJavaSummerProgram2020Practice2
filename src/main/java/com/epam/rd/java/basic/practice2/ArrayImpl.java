@@ -35,7 +35,7 @@ public class ArrayImpl implements Array {
 
         @Override
         public boolean hasNext() {
-            return objectBase.length > iteratorIndex;
+            return objectBase.length > iteratorIndex+1;
         }
 
         @Override
