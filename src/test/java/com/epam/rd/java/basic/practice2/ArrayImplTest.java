@@ -10,7 +10,7 @@ public class ArrayImplTest {
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
         arrayImpl.clear();
-        Assert.assertEquals("[null, null, null]", arrayImpl.toString());
+        Assert.assertEquals("[]", arrayImpl.toString());
 
     }
 
@@ -19,6 +19,17 @@ public class ArrayImplTest {
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
         Assert.assertEquals(3, arrayImpl.size());
+
+    }
+
+    @Test
+    public void removeTest(){
+
+        ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.set(0, "1");
+        arrayImpl.set(2, "3");
+        arrayImpl.remove(1);
+        Assert.assertEquals("[1, 3]", arrayImpl.toString());
 
     }
 

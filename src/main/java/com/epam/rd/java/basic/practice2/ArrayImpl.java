@@ -86,7 +86,16 @@ public class ArrayImpl implements Array {
 	@Override
     public void remove(int index) {
         if(index < objectBase.length){
-            objectBase[index] = null;
+            Object[] oldObjectBase = objectBase;
+            objectBase = new Object[objectBase.length - 1];
+            int j = 0;
+            for(int i = 0; i < objectBase.length; i++){
+                if(i == index){
+                    j++;
+                }
+                objectBase[i] = oldObjectBase[j];
+                j++;
+            }
         } else {
             throw new NoSuchElementException();
         }
