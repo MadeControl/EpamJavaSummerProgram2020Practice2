@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
 
-    Object[] objectBase = new Object[0];
+    Object[] objectBase = new Object[]{};
 
     public ArrayImpl() {
     }
@@ -16,7 +16,7 @@ public class ArrayImpl implements Array {
 
     @Override
     public void clear() {
-        objectBase = new Object[0];
+        objectBase = new Object[]{};
     }
 
 	@Override
