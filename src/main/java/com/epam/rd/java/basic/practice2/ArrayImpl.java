@@ -7,7 +7,14 @@ public class ArrayImpl implements Array {
 
     Object[] objectBase = new Object[0];
 
-	@Override
+    public ArrayImpl() {
+    }
+
+    public ArrayImpl(int size) {
+        this.objectBase = new Object[size];
+    }
+
+    @Override
     public void clear() {
         objectBase = new Object[objectBase.length];
     }
