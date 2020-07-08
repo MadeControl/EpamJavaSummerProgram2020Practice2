@@ -18,6 +18,9 @@ public class ArrayImplTest {
     public void sizeTest(){
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.add("1");
+        arrayImpl.add("2");
+        arrayImpl.add("3");
         Assert.assertEquals(3, arrayImpl.size());
 
     }
@@ -26,6 +29,9 @@ public class ArrayImplTest {
     public void removeTest(){
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.add("");
+        arrayImpl.add("");
+        arrayImpl.add("");
         arrayImpl.set(0, "1");
         arrayImpl.set(2, "3");
         arrayImpl.remove(1);
@@ -37,8 +43,9 @@ public class ArrayImplTest {
     public void setTest(){
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.add("");
         arrayImpl.set(0, "1");
-        Assert.assertEquals("[1, null, null]", arrayImpl.toString());
+        Assert.assertEquals("[1]", arrayImpl.toString());
 
     }
 
@@ -54,6 +61,9 @@ public class ArrayImplTest {
     public void indexOfTest(){
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.add("");
+        arrayImpl.add("");
+        arrayImpl.add("");
         arrayImpl.set(2, "1");
         Assert.assertEquals(2, arrayImpl.indexOf("1"));
 
@@ -63,6 +73,8 @@ public class ArrayImplTest {
     public void getTest(){
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
+        arrayImpl.add("");
+        arrayImpl.add("");
         arrayImpl.set(1, "GET");
         Assert.assertEquals("GET", arrayImpl.get(1));
 
@@ -73,7 +85,7 @@ public class ArrayImplTest {
 
         ArrayImpl arrayImpl = new ArrayImpl(3);
         arrayImpl.add("ADD");
-        Assert.assertEquals("[null, null, null, ADD]", arrayImpl.toString());
+        Assert.assertEquals("[ADD]", arrayImpl.toString());
 
     }
 

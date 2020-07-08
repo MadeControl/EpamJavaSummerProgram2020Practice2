@@ -100,16 +100,6 @@ public class ArrayImpl implements Array {
 	@Override
     public void remove(int index) {
         if(index < size){
-//            Object[] oldObjectBase = elementData;
-//            elementData = new Object[elementData.length - 1];
-//            int j = 0;
-//            for(int i = 0; i < elementData.length; i++){
-//                if(i == index){
-//                    j++;
-//                }
-//                elementData[i] = oldObjectBase[j];
-//                j++;
-//            }
 
             int numMoved = size - index - 1;
             if (numMoved > 0){
@@ -126,7 +116,7 @@ public class ArrayImpl implements Array {
     public String toString() {
         if (elementData == null)
             return "null";
-        int iMax = elementData.length - 1;
+        int iMax = size - 1;
         if (iMax == -1)
             return "[]";
 
@@ -168,7 +158,6 @@ public class ArrayImpl implements Array {
     }
 
     private void ensureExplicitCapacity(int minCapacity) {
-
         if (minCapacity - elementData.length > 0)
             grow(minCapacity);
     }
@@ -179,14 +168,9 @@ public class ArrayImpl implements Array {
         int newCapacity = oldCapacity + (oldCapacity >> 1);
         if (newCapacity - minCapacity < 0)
             newCapacity = minCapacity;
-        // minCapacity is usually close to size, so this is a win:
-//        elementData = Arrays.copyOf(elementData, newCapacity);
+
         Object[] oldElementData = elementData;
         elementData = new Object[newCapacity];
         System.arraycopy(oldElementData, 0, elementData, 0, oldElementData.length);
     }
-
-//    Object elementData(int index) {
-//        return elementData[index];
-//    }
 }
