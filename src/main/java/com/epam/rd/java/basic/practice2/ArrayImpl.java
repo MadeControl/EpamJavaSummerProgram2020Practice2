@@ -43,16 +43,16 @@ public class ArrayImpl implements Array {
 	
 	private class IteratorImpl implements Iterator<Object> {
 
-        private int iteratorIndex = 0;
+        private int cursor = 0;
 
         @Override
         public boolean hasNext() {
-            return elementData.length >= iteratorIndex+1;
+            return size != cursor;
         }
 
         @Override
         public Object next() {
-            return elementData[iteratorIndex++];
+            return elementData[cursor++];
         }
 
     }
