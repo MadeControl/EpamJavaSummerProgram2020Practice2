@@ -1,6 +1,7 @@
 package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class ListImpl implements List {
 
@@ -30,6 +31,16 @@ public class ListImpl implements List {
             return null;
         }
 
+    }
+
+    private static class Node<E> {
+        E item;
+        Node<E> next;
+
+        Node(E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+        }
     }
 
     @Override

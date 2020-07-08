@@ -5,27 +5,35 @@ import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
 
-    Object[] objectBase = new Object[]{};
+    private static int DEFAULT_CAPACITY = 10;
+    private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+    private static final Object[] EMPTY_ELEMENTDATA = {};
+    private Object[] elementData;
+    private int size = 0;
 
     public ArrayImpl() {
+        elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
 
-    public ArrayImpl(int size) {
-        this.objectBase = new Object[size];
-    }
-
-    public ArrayImpl(Object[] oldArray){
-        objectBase = oldArray;
+    public ArrayImpl(int initialCapacity) {
+        if (initialCapacity > 0) {
+            this.elementData = new Object[initialCapacity];
+        } else if (initialCapacity == 0) {
+            this.elementData = EMPTY_ELEMENTDATA;
+        }
     }
 
     @Override
     public void clear() {
-        objectBase = new Object[]{};
+        for (int i = 0; i < size; i++) {
+            elementData[i] = null;
+        }
+        size = 0;
     }
 
 	@Override
     public int size() {
-        return objectBase.length;
+        return size;
     }
 	
 	@Override
@@ -39,34 +47,28 @@ public class ArrayImpl implements Array {
 
         @Override
         public boolean hasNext() {
-            return objectBase.length >= iteratorIndex+1;
+            return elementData.length >= iteratorIndex+1;
         }
 
         @Override
         public Object next() {
-            return objectBase[iteratorIndex++];
+            return elementData[iteratorIndex++];
         }
 
     }
-	
+
 	@Override
     public void add(Object element) {
 
-        Object[] oldObjectBase = objectBase;
-        objectBase = new Object[oldObjectBase.length + 1];
-
-        for(int i = 0; i < oldObjectBase.length; i++){
-            objectBase[i] = oldObjectBase[i];
-        }
-
-        objectBase[objectBase.length-1] = element;
+        ensureCapacityInternal(size + 1);
+        elementData[size++] = element;
 
     }
 
 	@Override
     public void set(int index, Object element) {
-        if(index < objectBase.length){
-            objectBase[index] = element;
+        if(index < size){
+            elementData[index] = element;
         } else {
             throw new NoSuchElementException();
         }
@@ -74,8 +76,8 @@ public class ArrayImpl implements Array {
 
 	@Override
     public Object get(int index) {
-        if(index < objectBase.length){
-            return objectBase[index];
+        if(index < size){
+            return elementData[index];
         } else {
             throw new NoSuchElementException();
         }
@@ -83,26 +85,38 @@ public class ArrayImpl implements Array {
 
 	@Override
     public int indexOf(Object element) {
-        for(int i = 0; i < objectBase.length; i++){
-            if(element.equals(objectBase[i])){
-                return i;
-            }
-        } return -1;
+        if (element == null) {
+            for (int i = 0; i < size; i++)
+                if (elementData[i]==null)
+                    return i;
+        } else {
+            for (int i = 0; i < size; i++)
+                if (element.equals(elementData[i]))
+                    return i;
+        }
+        return -1;
     }
 
 	@Override
     public void remove(int index) {
-        if(index < objectBase.length){
-            Object[] oldObjectBase = objectBase;
-            objectBase = new Object[objectBase.length - 1];
-            int j = 0;
-            for(int i = 0; i < objectBase.length; i++){
-                if(i == index){
-                    j++;
-                }
-                objectBase[i] = oldObjectBase[j];
-                j++;
+        if(index < size){
+//            Object[] oldObjectBase = elementData;
+//            elementData = new Object[elementData.length - 1];
+//            int j = 0;
+//            for(int i = 0; i < elementData.length; i++){
+//                if(i == index){
+//                    j++;
+//                }
+//                elementData[i] = oldObjectBase[j];
+//                j++;
+//            }
+
+            int numMoved = size - index - 1;
+            if (numMoved > 0){
+                System.arraycopy(elementData, index+1, elementData, index, numMoved);
             }
+            elementData[--size] = null; // clear to let GC do its work
+
         } else {
             throw new NoSuchElementException();
         }
@@ -110,16 +124,16 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        if (objectBase == null)
+        if (elementData == null)
             return "null";
-        int iMax = objectBase.length - 1;
+        int iMax = elementData.length - 1;
         if (iMax == -1)
             return "[]";
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('[');
         for (int i = 0; ; i++) {
-            stringBuilder.append(objectBase[i]);
+            stringBuilder.append(elementData[i]);
             if (i == iMax)
                 return stringBuilder.append(']').toString();
             stringBuilder.append(", ");
@@ -128,16 +142,51 @@ public class ArrayImpl implements Array {
 
     public static void main(String[] args) {
         ArrayImpl arrayImpl = new ArrayImpl();
-
         arrayImpl.add("SomeObject");
         arrayImpl.clear();
+        arrayImpl.add("SomeObject");
         arrayImpl.get(0);
         arrayImpl.indexOf("SomeObject");
         arrayImpl.iterator();
         arrayImpl.remove(0);
+        arrayImpl.add("SomeObject");
         arrayImpl.set(0, "AnotherObject");
         arrayImpl.size();
         arrayImpl.toString();
     }
 
+
+    private static int calculateCapacity(Object[] elementData, int minCapacity) {
+        if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+            return Math.max(DEFAULT_CAPACITY, minCapacity);
+        }
+        return minCapacity;
+    }
+
+    private void ensureCapacityInternal(int minCapacity) {
+        ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));
+    }
+
+    private void ensureExplicitCapacity(int minCapacity) {
+
+        if (minCapacity - elementData.length > 0)
+            grow(minCapacity);
+    }
+
+    private void grow(int minCapacity) {
+        // overflow-conscious code
+        int oldCapacity = elementData.length;
+        int newCapacity = oldCapacity + (oldCapacity >> 1);
+        if (newCapacity - minCapacity < 0)
+            newCapacity = minCapacity;
+        // minCapacity is usually close to size, so this is a win:
+//        elementData = Arrays.copyOf(elementData, newCapacity);
+        Object[] oldElementData = elementData;
+        elementData = new Object[newCapacity];
+        System.arraycopy(oldElementData, 0, elementData, 0, oldElementData.length);
+    }
+
+//    Object elementData(int index) {
+//        return elementData[index];
+//    }
 }
