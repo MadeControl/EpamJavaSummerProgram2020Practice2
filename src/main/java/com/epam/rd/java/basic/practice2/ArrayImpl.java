@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
 
-    private static int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
     private static final Object[] EMPTY_ELEMENTDATA = {};
     private Object[] elementData;
@@ -132,14 +132,14 @@ public class ArrayImpl implements Array {
 
     public static void main(String[] args) {
         ArrayImpl arrayImpl = new ArrayImpl();
-        arrayImpl.add("SomeObject");
+        arrayImpl.add("Something");
         arrayImpl.clear();
-        arrayImpl.add("SomeObject");
+        arrayImpl.add("AnyObject");
         arrayImpl.get(0);
         arrayImpl.indexOf("SomeObject");
         arrayImpl.iterator();
         arrayImpl.remove(0);
-        arrayImpl.add("SomeObject");
+        arrayImpl.add("Object");
         arrayImpl.set(0, "AnotherObject");
         arrayImpl.size();
         arrayImpl.toString();

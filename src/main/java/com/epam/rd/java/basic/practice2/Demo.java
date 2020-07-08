@@ -5,7 +5,7 @@ public class Demo {
     // Doesn't work...
     public static void main(String[] args) {
 
-
+        ArrayImpl.main(new String[]{});
 
     }
 

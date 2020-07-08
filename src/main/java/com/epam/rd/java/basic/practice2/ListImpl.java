@@ -1,7 +1,7 @@
 package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+
 
 public class ListImpl implements List {
 
