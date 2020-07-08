@@ -14,6 +14,10 @@ public class ArrayImpl implements Array {
         this.objectBase = new Object[size];
     }
 
+    public ArrayImpl(Object[] oldArray){
+        objectBase = oldArray;
+    }
+
     @Override
     public void clear() {
         objectBase = new Object[]{};
@@ -50,10 +54,12 @@ public class ArrayImpl implements Array {
 
         Object[] oldObjectBase = objectBase;
         objectBase = new Object[oldObjectBase.length + 1];
+
         for(int i = 0; i < oldObjectBase.length; i++){
             objectBase[i] = oldObjectBase[i];
-        } objectBase[objectBase.length-1] = element;
+        }
 
+        objectBase[objectBase.length-1] = element;
 
     }
 
