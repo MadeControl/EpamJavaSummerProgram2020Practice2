@@ -69,6 +69,26 @@ public class ListImpl implements List {
             lastReturned = null;
 
         }
+
+        private void unlink(Node<Object> x) {
+            final Node<Object> next = x.next;
+            final Node<Object> prev = findPrevNode(x);
+
+            if (prev == null) {
+                head = next;
+            } else {
+                prev.next = next;
+            }
+
+            if (next != null) {
+                x.next = null;
+            }
+
+            x.item = null;
+            size--;
+        }
+
+
     }
 
     private static class Node<E> {
@@ -202,8 +222,28 @@ public class ListImpl implements List {
     public boolean remove(Object element) {
 
         Node<Object> currNode = head;
-
         Node<Object> prev = null;
+
+        if (element == null) {
+
+            while (currNode != null) {
+
+                if (currNode.item == null) {
+
+                    if (prev != null)
+                        prev.next = currNode.next;
+
+                    --size;
+
+                    return true;
+                }
+
+                prev = currNode;
+                currNode = currNode.next;
+            }
+
+            return false;
+        }
 
         if (currNode != null && element.equals(currNode.item)) {
             head = currNode.next;
@@ -212,8 +252,21 @@ public class ListImpl implements List {
         }
 
         while (currNode != null && !element.equals(currNode.item)) {
+
             prev = currNode;
             currNode = currNode.next;
+
+            if (currNode.next == null) {
+
+                if (!element.equals(currNode.item))
+                    return false;
+
+                prev.next = null;
+
+                --size;
+
+                return true;
+            }
         }
 
         if (currNode != null) {
@@ -277,23 +330,6 @@ public class ListImpl implements List {
         } return  prevNode;
     }
 
-    private void unlink(Node<Object> x) {
-        final Node<Object> next = x.next;
-        final Node<Object> prev = findPrevNode(x);
-
-        if (prev == null) {
-            head = next;
-        } else {
-            prev.next = next;
-        }
-
-        if (next != null) {
-            x.next = null;
-        }
-
-        x.item = null;
-        size--;
-    }
 
     private Object[] toArray() {
         Object[] result = new Object[size];
