@@ -7,6 +7,7 @@ public class Demo {
         ArrayImpl.main(args);
         ListImpl.main(args);
         QueueImpl.main(args);
+        StackImpl.main(args);
 
     }
 
