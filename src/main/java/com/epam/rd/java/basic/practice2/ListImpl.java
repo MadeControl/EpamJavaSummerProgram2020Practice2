@@ -42,7 +42,7 @@ public class ListImpl implements List {
 
         @Override
         public Object next() {
-            if(cursor == 0 && size == 0){
+            if(cursor > size){
                 throw new NoSuchElementException();
             }
             Node<Object> tempNode = first;
@@ -143,8 +143,6 @@ public class ListImpl implements List {
     @Override
     public String toString() {
         Object[] array = this.toArray();
-        if (array == null)
-            return "null";
 
         int iMax = array.length - 1;
         if (iMax == -1) {

@@ -36,10 +36,7 @@ public class QueueImplTest {
     @Test
     public void dequeueTest(){
 
-        queue.enqueue("1");
-        queue.enqueue("2");
-        queue.enqueue("3");
-        Assert.assertEquals("1", queue.dequeue());
+        Assert.assertNull(queue.dequeue());
 
     }
 

@@ -35,19 +35,19 @@ public class StackImpl implements Stack {
 
     private class IteratorImpl implements Iterator<Object> {
 
-        private int cursor = 0;
+        private int cursor = elementCount-1;
 
         @Override
         public boolean hasNext() {
-            return cursor != elementCount;
+            return cursor != 0;
         }
 
         @Override
         public Object next() {
-            if (cursor >= elementCount){
+            if (cursor <= 0){
                 throw new NoSuchElementException();
             }
-            return elementData[cursor++];
+            return elementData[cursor--];
         }
 
     }
@@ -65,7 +65,7 @@ public class StackImpl implements Stack {
             elementData[--elementCount] = null;
             return object;
         } else {
-            throw new NoSuchElementException();
+            return null;
         }
     }
 

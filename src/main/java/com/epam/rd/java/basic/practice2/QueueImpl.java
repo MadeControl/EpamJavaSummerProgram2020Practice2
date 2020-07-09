@@ -13,9 +13,7 @@ public class QueueImpl implements Queue {
     }
 
     public QueueImpl(int initialCapacity) {
-        if (initialCapacity >= 0) {
-            this.queue = new Object[initialCapacity];
-        }
+        this.queue = new Object[initialCapacity];
     }
 
     @Override
@@ -59,7 +57,7 @@ public class QueueImpl implements Queue {
             throw new NullPointerException();
         }
         if (size >= queue.length) {
-            grow(size + 1);
+            grow();
         }
         queue[size++] = element;
     }
@@ -85,9 +83,7 @@ public class QueueImpl implements Queue {
 
     @Override
     public String toString() {
-        if (queue == null) {
-            return "null";
-        }
+
         int iMax = size - 1;
         if (iMax == -1)
             return "[]";
@@ -114,7 +110,7 @@ public class QueueImpl implements Queue {
         queue.iterator();
     }
 
-    private void grow(int minCapacity) {
+    private void grow() {
         int oldCapacity = queue.length;
         int newCapacity = oldCapacity + ((oldCapacity < 64) ?
                 (oldCapacity + 2) :

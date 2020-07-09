@@ -3,6 +3,8 @@ package com.epam.rd.java.basic.practice2;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class ListImplTest {
 
     @Test
@@ -66,11 +68,8 @@ public class ListImplTest {
     public void removeLastTest(){
 
         ListImpl list =  new ListImpl();
-        list.addLast("1");
-        list.addLast("2");
-        list.addLast("3");
         list.removeLast();
-        Assert.assertEquals("[1, 2]", list.toString());
+        Assert.assertEquals("[]", list.toString());
 
     }
 
@@ -147,6 +146,23 @@ public class ListImplTest {
         list.addLast("1");
         list.addLast("2");
         Assert.assertEquals("[1, 2]", list.toString());
+
+    }
+
+    @Test
+    public void iteratorTest(){
+
+        ListImpl list = new ListImpl();
+        list.addLast("A");
+        list.addLast("B");
+        list.addLast("C");
+        list.addLast("null");
+        Iterator<Object> iter = list.iterator();
+        StringBuilder stringBuilder = new StringBuilder();
+        while (iter.hasNext()){
+            stringBuilder.append(iter.next());
+        }
+        Assert.assertEquals("ABCnull", stringBuilder.toString());
 
     }
 
