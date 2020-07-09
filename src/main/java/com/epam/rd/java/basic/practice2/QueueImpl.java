@@ -3,6 +3,8 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import static com.epam.rd.java.basic.practice2.ArrayImpl.getString;
+
 public class QueueImpl implements Queue {
 
     private Object[] queue = new Object[]{};
@@ -17,8 +19,9 @@ public class QueueImpl implements Queue {
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             queue[i] = null;
+        }
         size = 0;
     }
 
@@ -83,18 +86,7 @@ public class QueueImpl implements Queue {
     @Override
     public String toString() {
 
-        int iMax = size - 1;
-        if (iMax == -1)
-            return "[]";
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('[');
-        for (int i = 0; ; i++) {
-            stringBuilder.append(queue[i]);
-            if (i == iMax)
-                return stringBuilder.append(']').toString();
-            stringBuilder.append(", ");
-        }
+        return getString(size, queue);
     }
 
     public static void main(String[] args) {

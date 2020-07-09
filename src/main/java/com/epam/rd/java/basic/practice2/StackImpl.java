@@ -3,6 +3,8 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import static com.epam.rd.java.basic.practice2.ArrayImpl.getString;
+
 public class StackImpl implements Stack {
 
     private Object[] elementData;
@@ -82,18 +84,7 @@ public class StackImpl implements Stack {
         if (elementData == null) {
             return "null";
         }
-        int iMax = elementCount - 1;
-        if (iMax == -1)
-            return "[]";
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('[');
-        for (int i = 0; ; i++) {
-            stringBuilder.append(elementData[i]);
-            if (i == iMax)
-                return stringBuilder.append(']').toString();
-            stringBuilder.append(", ");
-        }
+        return getString(elementCount, elementData);
     }
 
     public static void main(String[] args) {

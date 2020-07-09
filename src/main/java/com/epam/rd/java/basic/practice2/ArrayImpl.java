@@ -62,10 +62,8 @@ public class ArrayImpl implements Array {
 
 	@Override
     public void add(Object element) {
-
         ensureCapacityInternal(size + 1);
         elementData[size++] = element;
-
     }
 
 	@Override
@@ -117,9 +115,11 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        if (elementData == null){
-            return "null";
-        }
+
+        return getString(size, elementData);
+    }
+
+    static String getString(int size, Object[] elementData) {
         int iMax = size - 1;
         if (iMax == -1)
             return "[]";
