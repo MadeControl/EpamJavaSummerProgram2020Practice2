@@ -112,7 +112,6 @@ public class ListImpl implements List {
 
     @Override
     public Object search(Object element) {
-        Node<Object> temp = first;
         for(Node<Object> x = first; x != null; x = x.next){
             if(element.equals(x.item)){
                 return  x.item;
@@ -148,13 +147,14 @@ public class ListImpl implements List {
             return "null";
 
         int iMax = array.length - 1;
-        if (iMax == -1)
+        if (iMax == -1) {
             return "[]";
+        }
 
         StringBuilder b = new StringBuilder();
         b.append('[');
         for (int i = 0; ; i++) {
-            b.append(String.valueOf(array[i]));
+            b.append(array[i]);
             if (i == iMax)
                 return b.append(']').toString();
             b.append(", ");
@@ -176,27 +176,23 @@ public class ListImpl implements List {
         listImpl.removeLast();
         listImpl.search("something4");
         listImpl.remove("something2");
-        listImpl.toString();
         listImpl.clear();
-        listImpl.toString();
 
     }
 
     private void linkFirst(Object e) {
         final Node<Object> f = first;
-        final Node<Object> newNode = new Node<Object>(e, f);
+        final Node<Object> newNode = new Node<>(e, f);
         first = newNode;
         if (f == null){
             last = newNode;
         }
-//        else
-//            f.prev = newNode;
         size++;
     }
 
     private void linkLast(Object e) {
         final Node<Object> l = last;
-        final Node<Object> newNode = new Node<Object>(e, null);
+        final Node<Object> newNode = new Node<>(e, null);
         last = newNode;
         if (l == null)
             first = newNode;
@@ -219,7 +215,6 @@ public class ListImpl implements List {
     private void unlinkLast(Node<Object> l) {
         final Node<Object> prev = findPrevNode(last.item);
         l.item = null;
-//        l.prev = null; // help GC
         last = prev;
         if (prev == null)
             first = null;
@@ -238,8 +233,6 @@ public class ListImpl implements List {
     }
 
     private void unlink(Node<Object> x) {
-        // assert x != null;
-        final Object element = x.item;
         final Node<Object> next = x.next;
         final Node<Object> prev = findPrevNode(x);
 
@@ -247,13 +240,11 @@ public class ListImpl implements List {
             first = next;
         } else {
             prev.next = next;
-//            x.prev = null;
         }
 
         if (next == null) {
             last = prev;
         } else {
-//            next.prev = prev;
             x.next = null;
         }
 

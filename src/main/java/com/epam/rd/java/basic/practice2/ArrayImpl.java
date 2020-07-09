@@ -47,12 +47,15 @@ public class ArrayImpl implements Array {
 
         @Override
         public boolean hasNext() {
-            return size != cursor;
+            return size > cursor;
         }
 
         @Override
         public Object next() {
-            return elementData[cursor++];
+            if (cursor < size){
+                return elementData[cursor++];
+            }
+            throw new NoSuchElementException();
         }
 
     }
@@ -114,8 +117,9 @@ public class ArrayImpl implements Array {
 
     @Override
     public String toString() {
-        if (elementData == null)
+        if (elementData == null){
             return "null";
+        }
         int iMax = size - 1;
         if (iMax == -1)
             return "[]";
@@ -142,7 +146,6 @@ public class ArrayImpl implements Array {
         arrayImpl.add("Object");
         arrayImpl.set(0, "AnotherObject");
         arrayImpl.size();
-        arrayImpl.toString();
     }
 
 
@@ -163,7 +166,6 @@ public class ArrayImpl implements Array {
     }
 
     private void grow(int minCapacity) {
-        // overflow-conscious code
         int oldCapacity = elementData.length;
         int newCapacity = oldCapacity + (oldCapacity >> 1);
         if (newCapacity - minCapacity < 0)

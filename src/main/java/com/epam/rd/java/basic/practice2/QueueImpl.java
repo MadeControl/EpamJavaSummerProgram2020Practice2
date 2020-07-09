@@ -1,21 +1,33 @@
 package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class QueueImpl implements Queue {
 
+    private Object[] queue;
+    private int size = 0;
+
     public QueueImpl() {
-        
+        this.queue = new Object[]{};
+    }
+
+    public QueueImpl(int initialCapacity) {
+        if (initialCapacity >= 0) {
+            this.queue = new Object[initialCapacity];
+        }
     }
 
     @Override
     public void clear() {
-        
+        for (int i = 0; i < size; i++)
+            queue[i] = null;
+        size = 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     public Iterator<Object> iterator() {
@@ -24,40 +36,93 @@ public class QueueImpl implements Queue {
 
     private class IteratorImpl implements Iterator<Object> {
 
+        private int cursor = 0;
+
         @Override
         public boolean hasNext() {
-            return false;
+            return cursor < size;
         }
 
         @Override
         public Object next() {
-            return null;
+            if (cursor < size){
+                return queue[cursor++];
+            }
+            throw new NoSuchElementException();
         }
 
     }
 
     @Override
     public void enqueue(Object element) {
-        
+        if (element == null){
+            throw new NullPointerException();
+        }
+        if (size >= queue.length) {
+            grow(size + 1);
+        }
+        queue[size++] = element;
     }
 
     @Override
     public Object dequeue() {
-        return null;
+        if (size == 0){
+            return null;
+        } Object object = queue[0];
+        Object[] newQueue = new Object[queue.length];
+        System.arraycopy(queue, 1, newQueue, 0, --size);
+        queue = newQueue;
+        return object;
     }
 
     @Override
     public Object top() {
-        return null;
+        if (size == 0){
+            return null;
+        }
+        return queue[0];
     }
 
     @Override
     public String toString() {
-        return null;
+        if (queue == null) {
+            return "null";
+        }
+        int iMax = size - 1;
+        if (iMax == -1)
+            return "[]";
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('[');
+        for (int i = 0; ; i++) {
+            stringBuilder.append(queue[i]);
+            if (i == iMax)
+                return stringBuilder.append(']').toString();
+            stringBuilder.append(", ");
+        }
     }
 
     public static void main(String[] args) {
+        QueueImpl queue = new QueueImpl(0);
+        queue.enqueue("1");
+        queue.enqueue("2");
+        queue.enqueue("3");
+        queue.size();
+        queue.top();
+        queue.dequeue();
+        queue.clear();
+        queue.iterator();
+    }
 
+    private void grow(int minCapacity) {
+        int oldCapacity = queue.length;
+        int newCapacity = oldCapacity + ((oldCapacity < 64) ?
+                (oldCapacity + 2) :
+                (oldCapacity >> 1));
+
+        Object[] oldQueue = queue;
+        queue = new Object[newCapacity];
+        System.arraycopy(oldQueue, 0, queue, 0, oldQueue.length);
     }
 
 }
