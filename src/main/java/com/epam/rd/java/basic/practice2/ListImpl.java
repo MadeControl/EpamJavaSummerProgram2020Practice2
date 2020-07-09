@@ -34,7 +34,7 @@ public class ListImpl implements List {
     private class IteratorImpl implements Iterator<Object> {
 
         private Node<Object> lastReturned;
-        private Node<Object> next = head;
+        private Node<Object> nextNode = head;
         private int cursor = 0;
 
         @Override
@@ -47,9 +47,9 @@ public class ListImpl implements List {
             if (!hasNext()){
                 throw new NoSuchElementException();
             }
-            lastReturned = next;
+            lastReturned = nextNode;
             if(cursor < size){
-                next = next.next;
+                nextNode = nextNode.next;
             }
             cursor++;
             return lastReturned.item;
@@ -60,8 +60,8 @@ public class ListImpl implements List {
 
             Node<Object> lastNext = lastReturned.next;
             unlink(lastReturned);
-            if (next == lastReturned){
-                next = lastNext;
+            if (nextNode == lastReturned){
+                nextNode = lastNext;
             }
             else {
                 cursor--;
@@ -88,6 +88,18 @@ public class ListImpl implements List {
             size--;
         }
 
+        private Node<Object> findPrevNode(Object x){
+            Node<Object> curNode = head;
+            Node<Object> prevNode = null;
+            while (!x.equals(curNode)){
+                prevNode = curNode;
+                if (curNode.next != null){
+                    curNode = curNode.next;
+                } else {
+                    break;
+                }
+            } return  prevNode;
+        }
 
     }
 
@@ -316,20 +328,6 @@ public class ListImpl implements List {
         listImpl.clear();
 
     }
-
-    private Node<Object> findPrevNode(Object x){
-        Node<Object> curNode = head;
-        Node<Object> prevNode = null;
-        while (!x.equals(curNode)){
-            prevNode = curNode;
-            if (curNode.next != null){
-                curNode = curNode.next;
-            } else {
-                break;
-            }
-        } return  prevNode;
-    }
-
 
     private Object[] toArray() {
         Object[] result = new Object[size];
