@@ -166,9 +166,6 @@ public class ListImpl implements List {
         ListImpl listImpl = new ListImpl();
         listImpl.addFirst("First");
         listImpl.addLast("something1");
-        listImpl.addLast("something2");
-        listImpl.addLast("something3");
-        listImpl.addLast("Last");
         listImpl.size();
         listImpl.getFirst();
         listImpl.getLast();
@@ -204,7 +201,7 @@ public class ListImpl implements List {
     private void unlinkFirst(Node<Object> f) {
         final Node<Object> next = f.next;
         f.item = null;
-        f.next = null; // help GC
+        f.next = null;
         first = next;
         if (next == null){
             last = null;

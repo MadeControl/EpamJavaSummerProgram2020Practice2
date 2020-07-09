@@ -39,12 +39,12 @@ public class StackImpl implements Stack {
 
         @Override
         public boolean hasNext() {
-            return cursor < 0;
+            return cursor > 0;
         }
 
         @Override
         public Object next() {
-            if (cursor <= 0){
+            if (cursor < 0){
                 throw new NoSuchElementException();
             }
             return elementData[cursor--];

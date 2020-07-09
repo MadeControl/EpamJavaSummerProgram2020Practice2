@@ -4,10 +4,11 @@ public class Demo {
 
     public static void main(String[] args) {
 
-        ArrayImpl.main(args);
-        ListImpl.main(args);
-        QueueImpl.main(args);
-        StackImpl.main(args);
+        String[] arguments = new String[]{};
+        ArrayImpl.main(arguments);
+        ListImpl.main(arguments);
+        QueueImpl.main(arguments);
+        StackImpl.main(arguments);
 
     }
 
