@@ -11,13 +11,15 @@ public class ListImpl implements List {
 
     @Override
     public  void clear() {
-        Node<Object> temp1Node = first;
-        Node<Object> temp2Node = first.next;
-        for (int i = 0; i < size-1; i++) {
-            temp1Node.item = null;
-            temp1Node.next = null;
-            temp1Node = temp2Node;
-            temp2Node = temp2Node.next;
+        if(size > 2){
+            Node<Object> temp1Node = first;
+            Node<Object> temp2Node = first.next;
+            for (int i = 0; i < size-1; i++) {
+                temp1Node.item = null;
+                temp1Node.next = null;
+                temp1Node = temp2Node;
+                temp2Node = temp2Node.next;
+            }
         }
         first = last = null;
         size = 0;

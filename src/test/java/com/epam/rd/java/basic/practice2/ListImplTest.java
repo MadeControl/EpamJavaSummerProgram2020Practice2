@@ -11,10 +11,6 @@ public class ListImplTest {
     public void clearTest(){
 
         ListImpl list =  new ListImpl();
-        list.addLast("1");
-        list.addLast("2");
-        list.addLast("3");
-        list.addLast("4");
         list.clear();
         Assert.assertEquals("[]", list.toString());
 
@@ -69,7 +65,6 @@ public class ListImplTest {
     public void removeLastTest(){
 
         ListImpl list =  new ListImpl();
-        list.addFirst("1");
         list.removeLast();
         Assert.assertEquals("[]", list.toString());
 
@@ -90,9 +85,6 @@ public class ListImplTest {
     public void removeNotExistElementTest(){
 
         ListImpl list =  new ListImpl();
-        list.addLast("1");
-        list.addLast("2");
-        list.addLast("3");
         Assert.assertFalse(list.remove("4"));
 
     }
