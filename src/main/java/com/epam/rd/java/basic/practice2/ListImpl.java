@@ -5,26 +5,21 @@ import java.util.NoSuchElementException;
 
 public class ListImpl implements List {
 
-    private Node<Object> first;
-    private Node<Object> last;
+    private Node<Object> head;
+
     private int size = 0;
 
     @Override
-    public  void clear() {
+    public void clear() {
 
-//        Node[] array = new Node[size];
-//        Node<Object> tempNode = first;
-//        for(int i = 0; i < size; i++){
-//            array[i] = tempNode;
-//            tempNode = tempNode.next;
-//        }
-//        for(int i = 0; i < size; i++){
-//            array[i].item = null;
-//            array[i].next = null;
-//        }
+        Node<Object> temp = head;
+
+        while (temp != null) {
+            head = temp.next;
+            temp = head;
+        }
+
         size = 0;
-        first = null;
-        last = null;
     }
 
     @Override
@@ -39,7 +34,7 @@ public class ListImpl implements List {
     private class IteratorImpl implements Iterator<Object> {
 
         private Node<Object> lastReturned;
-        private Node<Object> next = first;
+        private Node<Object> next = head;
         private int cursor = 0;
 
         @Override
@@ -88,77 +83,149 @@ public class ListImpl implements List {
 
     @Override
     public void addFirst(Object element) {
-        linkFirst(element);
+
+        Node<Object> newNode = new Node<>(element, null);
+
+        newNode.next = head;
+
+        head = newNode;
+
+        ++size;
     }
 
     @Override
     public void addLast(Object element) {
-        linkLast(element);
+
+        Node<Object> newNode = new Node<>(element, null);
+
+        newNode.next = null;
+
+        if (head == null)
+            head = newNode;
+        else {
+            Node<Object> last = head;
+
+            while (last.next != null)
+                last = last.next;
+
+            last.next = newNode;
+        }
+
+        ++size;
     }
 
     @Override
     public void removeFirst() {
-        final Node<Object> f = first;
-        if (f == null){
-            throw new NoSuchElementException();
-        }
-        unlinkFirst(f);
+
+        if (head == null)
+            return;
+
+        Node<Object> currNode = head;
+
+        head = currNode.next;
+
+        --size;
     }
 
     @Override
     public void removeLast() {
-        final Node<Object> l = last;
-        if (l == null){
-            throw new NoSuchElementException();
+
+        if (head == null)
+            return;
+
+        Node<Object> currNode = head;
+        Node<Object> prev = new Node<>(null, null);
+
+        if (currNode.next == null) {
+            head = null;
+            return;
         }
-        unlinkLast(l);
+
+        while (true) {
+
+            if (currNode.next == null) {
+                prev.next = null;
+
+                break;
+            } else {
+                prev = currNode;
+                currNode = currNode.next;
+            }
+        }
+        --size;
     }
 
     @Override
     public Object getFirst() {
-        final Node<Object> f = first;
-        if (f == null){
-            throw new NoSuchElementException();
-        }
-        return f.item;
+
+        if (head == null)
+            return null;
+
+        return head.item;
     }
 
     @Override
     public Object getLast() {
-        final Node<Object> l = last;
-        if (l == null){
-            throw new NoSuchElementException();
+
+        if (head == null)
+            return null;
+
+        Node<Object> currNode = head;
+
+        while (true) {
+
+            if (currNode.next == null)
+                return currNode.item;
+            else
+                currNode = currNode.next;
         }
-        return l.item;
     }
 
     @Override
     public Object search(Object element) {
-        for(Node<Object> x = first; x != null; x = x.next){
-            if(element.equals(x.item)){
-                return  x.item;
-            }
-        }
-        return null;
+
+        Node<Object> currNode = head;
+
+        if (currNode != null && element.equals(currNode.item))
+            return currNode.item;
+
+        while (currNode != null && !element.equals(currNode.item))
+            currNode = currNode.next;
+
+        if (currNode == null)
+            return null;
+
+        return currNode.item;
     }
 
     @Override
     public boolean remove(Object element) {
-        if (element == null) {
-            for (Node<Object> x = first; x != null; x = x.next) {
-                if (x.item == null) {
-                    unlink(x);
-                    return true;
-                }
-            }
-        } else {
-            for (Node<Object> x = first; x != null; x = x.next) {
-                if (element.equals(x.item)) {
-                    unlink(x);
-                    return true;
-                }
-            }
+
+        Node<Object> currNode = head;
+
+        Node<Object> prev = null;
+
+        if (currNode != null && element.equals(currNode.item)) {
+            head = currNode.next;
+            --size;
+            return true;
         }
+
+        while (currNode != null && !element.equals(currNode.item)) {
+            prev = currNode;
+            currNode = currNode.next;
+        }
+
+        if (currNode != null) {
+
+            if (prev != null)
+                prev.next = currNode.next;
+
+            --size;
+
+            return true;
+        }
+
         return false;
     }
 
@@ -197,51 +264,8 @@ public class ListImpl implements List {
 
     }
 
-    private void linkFirst(Object e) {
-        final Node<Object> f = first;
-        final Node<Object> newNode = new Node<>(e, f);
-        first = newNode;
-        if (f == null){
-            last = newNode;
-        }
-        size++;
-    }
-
-    private void linkLast(Object e) {
-        final Node<Object> l = last;
-        final Node<Object> newNode = new Node<>(e, null);
-        last = newNode;
-        if (l == null)
-            first = newNode;
-        else
-            l.next = newNode;
-        size++;
-    }
-
-    private void unlinkFirst(Node<Object> f) {
-        final Node<Object> next = f.next;
-        f.item = null;
-        f.next = null;
-        first = next;
-        if (next == null){
-            last = null;
-        }
-        size--;
-    }
-
-    private void unlinkLast(Node<Object> l) {
-        final Node<Object> prev = findPrevNode(last.item);
-        l.item = null;
-        last = prev;
-        if (prev == null)
-            first = null;
-        else
-            prev.next = null;
-        size--;
-    }
-
     private Node<Object> findPrevNode(Object x){
-        Node<Object> curNode = first;
+        Node<Object> curNode = head;
         Node<Object> prevNode = null;
         while (!x.equals(curNode)){
             prevNode = curNode;
@@ -258,14 +282,12 @@ public class ListImpl implements List {
         final Node<Object> prev = findPrevNode(x);
 
         if (prev == null) {
-            first = next;
+            head = next;
         } else {
             prev.next = next;
         }
 
-        if (next == null) {
-            last = prev;
-        } else {
+        if (next != null) {
             x.next = null;
         }
 
@@ -276,7 +298,7 @@ public class ListImpl implements List {
     private Object[] toArray() {
         Object[] result = new Object[size];
         int i = 0;
-        for (Node<Object> x = first; x != null; x = x.next){
+        for (Node<Object> x = head; x != null; x = x.next){
             result[i++] = x.item;
         }
         return result;

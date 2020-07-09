@@ -63,32 +63,19 @@ public class QueueImpl implements Queue {
 
     @Override
     public void enqueue(Object element) {
-//        if (element == null){
-//            throw new NullPointerException();
-//        }
-//        if (size >= array.length) {
-//            grow();
-//        }
-//        array[size++] = element;
 
+        if (size >= array.length) {
+            grow();
+        }
         if (capacity != rear) {
             array[rear] = element;
             rear++;
         }
-
         ++size;
     }
 
     @Override
     public Object dequeue() {
-//        if (size == 0){
-//            throw new NoSuchElementException();
-//        }
-//        Object object = queue[0];
-//        Object[] newQueue = new Object[queue.length];
-//        System.arraycopy(queue, 1, newQueue, 0, --size);
-//        queue = newQueue;
-//        return object;
 
         if (array == null || array.length <= 0){
             return null;
@@ -109,11 +96,6 @@ public class QueueImpl implements Queue {
 
     @Override
     public Object top() {
-//        if (size == 0){
-//            return null;
-//        }
-//        return queue[0];
-
         if (front != rear)
             return array[0];
 
