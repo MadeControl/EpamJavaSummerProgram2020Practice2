@@ -199,53 +199,6 @@ public class ListImpl implements List {
         return currNode.item;
     }
 
-//    @Override
-//    public boolean remove(Object element) {
-//        Node<Object> currNode = head;
-//        Node<Object> prev = null;
-//        if (element == null) {
-//            while (currNode != null) {
-//                if (currNode.item == null) {
-//                    if (prev != null)
-//                        prev.next = currNode.next;
-//                    --size;
-//                    return true;
-//                }
-//                prev = currNode;
-//                currNode = currNode.next;
-//            }
-//            return false;
-//        }
-//        if (currNode != null && element.equals(currNode.item)) {
-//            head = currNode.next;
-//            --size;
-//            return true;
-//        }
-//        while (currNode != null && !element.equals(currNode.item)) {
-//            prev = currNode;
-//            currNode = currNode.next;
-//            if (currNode.next == null) {
-//                if (!element.equals(currNode.item))
-//                    return false;
-//                prev.next = null;
-//                --size;
-//                return true;
-//            }
-//        }
-//
-//        if (currNode != null) {
-//
-//            if (prev != null)
-//                prev.next = currNode.next;
-//
-//            --size;
-//
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     @Override
     public boolean remove(Object element) {
         if (element == null) {
