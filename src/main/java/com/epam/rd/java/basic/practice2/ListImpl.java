@@ -9,9 +9,6 @@ public class ListImpl implements List {
     private Node<Object> last;
     private int size;
 
-    public ListImpl() {
-    }
-
     @Override
     public  void clear() {
         Node<Object> temp1Node = first;

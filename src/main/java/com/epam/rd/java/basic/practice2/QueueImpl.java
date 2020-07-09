@@ -2,15 +2,15 @@ package com.epam.rd.java.basic.practice2;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import static com.epam.rd.java.basic.practice2.ArrayImpl.getString;
 
 public class QueueImpl implements Queue {
 
-    private Object[] queue = new Object[]{};
+    private Object[] queue;
     private int size = 0;
 
     public QueueImpl() {
+        queue = new Object[10];
     }
 
     public QueueImpl(int initialCapacity) {
@@ -67,7 +67,7 @@ public class QueueImpl implements Queue {
     @Override
     public Object dequeue() {
         if (size == 0){
-            return null;
+            throw new NoSuchElementException();
         } Object object = queue[0];
         Object[] newQueue = new Object[queue.length];
         System.arraycopy(queue, 1, newQueue, 0, --size);
@@ -90,7 +90,7 @@ public class QueueImpl implements Queue {
     }
 
     public static void main(String[] args) {
-        QueueImpl queue = new QueueImpl(3);
+        QueueImpl queue = new QueueImpl();
         queue.enqueue("1");
         queue.enqueue("2");
         queue.enqueue("3");
