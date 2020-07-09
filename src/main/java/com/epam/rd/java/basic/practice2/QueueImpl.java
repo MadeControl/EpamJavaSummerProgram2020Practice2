@@ -5,15 +5,14 @@ import java.util.NoSuchElementException;
 
 public class QueueImpl implements Queue {
 
-    private Object[] queue;
+    private Object[] queue = new Object[]{};
     private int size = 0;
 
     public QueueImpl() {
-        this.queue = new Object[]{};
     }
 
     public QueueImpl(int initialCapacity) {
-        this.queue = new Object[initialCapacity];
+        queue = new Object[initialCapacity];
     }
 
     @Override
