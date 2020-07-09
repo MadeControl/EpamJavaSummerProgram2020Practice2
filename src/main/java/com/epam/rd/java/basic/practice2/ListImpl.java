@@ -12,16 +12,16 @@ public class ListImpl implements List {
     @Override
     public  void clear() {
 
-        Node[] array = new Node[size];
-        Node<Object> tempNode = first;
-        for(int i = 0; i < size; i++){
-            array[i] = tempNode;
-            tempNode = tempNode.next;
-        }
-        for(int i = 0; i < size; i++){
-            array[i].item = null;
-            array[i].next = null;
-        }
+//        Node[] array = new Node[size];
+//        Node<Object> tempNode = first;
+//        for(int i = 0; i < size; i++){
+//            array[i] = tempNode;
+//            tempNode = tempNode.next;
+//        }
+//        for(int i = 0; i < size; i++){
+//            array[i].item = null;
+//            array[i].next = null;
+//        }
         size = 0;
         first = null;
         last = null;
