@@ -70,37 +70,6 @@ public class ListImpl implements List {
 
         }
 
-        private void unlink(Node<Object> x) {
-            final Node<Object> next = x.next;
-            final Node<Object> prev = findPrevNode(x);
-
-            if (prev == null) {
-                head = next;
-            } else {
-                prev.next = next;
-            }
-
-            if (next != null) {
-                x.next = null;
-            }
-
-            x.item = null;
-            size--;
-        }
-
-        private Node<Object> findPrevNode(Object x){
-            Node<Object> curNode = head;
-            Node<Object> prevNode = null;
-            while (!x.equals(curNode)){
-                prevNode = curNode;
-                if (curNode.next != null){
-                    curNode = curNode.next;
-                } else {
-                    break;
-                }
-            } return  prevNode;
-        }
-
     }
 
     private static class Node<E> {
@@ -230,67 +199,70 @@ public class ListImpl implements List {
         return currNode.item;
     }
 
+//    @Override
+//    public boolean remove(Object element) {
+//        Node<Object> currNode = head;
+//        Node<Object> prev = null;
+//        if (element == null) {
+//            while (currNode != null) {
+//                if (currNode.item == null) {
+//                    if (prev != null)
+//                        prev.next = currNode.next;
+//                    --size;
+//                    return true;
+//                }
+//                prev = currNode;
+//                currNode = currNode.next;
+//            }
+//            return false;
+//        }
+//        if (currNode != null && element.equals(currNode.item)) {
+//            head = currNode.next;
+//            --size;
+//            return true;
+//        }
+//        while (currNode != null && !element.equals(currNode.item)) {
+//            prev = currNode;
+//            currNode = currNode.next;
+//            if (currNode.next == null) {
+//                if (!element.equals(currNode.item))
+//                    return false;
+//                prev.next = null;
+//                --size;
+//                return true;
+//            }
+//        }
+//
+//        if (currNode != null) {
+//
+//            if (prev != null)
+//                prev.next = currNode.next;
+//
+//            --size;
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
+
     @Override
     public boolean remove(Object element) {
-
-        Node<Object> currNode = head;
-        Node<Object> prev = null;
-
         if (element == null) {
-
-            while (currNode != null) {
-
-                if (currNode.item == null) {
-
-                    if (prev != null)
-                        prev.next = currNode.next;
-
-                    --size;
-
+            for (Node<Object> x = head; x != null; x = x.next) {
+                if (x.item == null) {
+                    unlink(x);
                     return true;
                 }
-
-                prev = currNode;
-                currNode = currNode.next;
             }
-
-            return false;
-        }
-
-        if (currNode != null && element.equals(currNode.item)) {
-            head = currNode.next;
-            --size;
-            return true;
-        }
-
-        while (currNode != null && !element.equals(currNode.item)) {
-
-            prev = currNode;
-            currNode = currNode.next;
-
-            if (currNode.next == null) {
-
-                if (!element.equals(currNode.item))
-                    return false;
-
-                prev.next = null;
-
-                --size;
-
-                return true;
+        } else {
+            for (Node<Object> x = head; x != null; x = x.next) {
+                if (element.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
             }
         }
-
-        if (currNode != null) {
-
-            if (prev != null)
-                prev.next = currNode.next;
-
-            --size;
-
-            return true;
-        }
-
         return false;
     }
 
@@ -338,4 +310,34 @@ public class ListImpl implements List {
         return result;
     }
 
+    private void unlink(Node<Object> x) {
+        final Node<Object> next = x.next;
+        final Node<Object> prev = findPrevNode(x);
+
+        if (prev == null) {
+            head = next;
+        } else {
+            prev.next = next;
+        }
+
+        if (next != null) {
+            x.next = null;
+        }
+
+        x.item = null;
+        size--;
+    }
+
+    private Node<Object> findPrevNode(Object x){
+        Node<Object> curNode = head;
+        Node<Object> prevNode = null;
+        while (!x.equals(curNode)){
+            prevNode = curNode;
+            if (curNode.next != null){
+                curNode = curNode.next;
+            } else {
+                break;
+            }
+        } return  prevNode;
+    }
 }
