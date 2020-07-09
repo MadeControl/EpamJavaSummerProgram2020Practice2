@@ -42,7 +42,7 @@ public class StackImplTest {
         while (iter.hasNext()){
             stringBuilder.append(iter.next());
         }
-        Assert.assertEquals("ABCnull", stringBuilder.toString());
+        Assert.assertEquals("nullCBA", stringBuilder.toString());
 
     }
 

@@ -2,7 +2,6 @@ package com.epam.rd.java.basic.practice2;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.Iterator;
 
 public class QueueImplTest {
@@ -36,7 +35,8 @@ public class QueueImplTest {
     @Test
     public void dequeueTest(){
 
-        Assert.assertNull(queue.dequeue());
+        queue.enqueue("1");
+        Assert.assertEquals("1", queue.dequeue());
 
     }
 

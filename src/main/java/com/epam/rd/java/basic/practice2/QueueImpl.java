@@ -97,15 +97,13 @@ public class QueueImpl implements Queue {
         queue.size();
         queue.top();
         queue.dequeue();
-        queue.clear();
         queue.iterator();
+        queue.clear();
     }
 
     private void grow() {
         int oldCapacity = queue.length;
-        int newCapacity = oldCapacity + ((oldCapacity < 64) ?
-                (oldCapacity + 2) :
-                (oldCapacity >> 1));
+        int newCapacity = oldCapacity + ((oldCapacity < 64) ? (2) : (oldCapacity >> 1));
 
         Object[] oldQueue = queue;
         queue = new Object[newCapacity];

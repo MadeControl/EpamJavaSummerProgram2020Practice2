@@ -41,7 +41,7 @@ public class StackImpl implements Stack {
 
         @Override
         public boolean hasNext() {
-            return cursor > 0;
+            return cursor >= 0;
         }
 
         @Override
