@@ -7,25 +7,24 @@ public class ListImpl implements List {
 
     private Node<Object> first;
     private Node<Object> last;
-    private int size;
+    private int size = 0;
 
     @Override
     public  void clear() {
-        if(size > 2){
-            Node<Object> temp1Node = first;
-            Node<Object> temp2Node = first.next;
-            for (int i = 0; i < size-1; i++) {
-                temp1Node.item = null;
-                temp1Node.next = null;
-                temp1Node = temp2Node;
-                if(temp2Node.next != null){
-                    temp2Node = temp2Node.next;
-                }
-            }
+
+        Node[] array = new Node[size];
+        Node<Object> tempNode = first;
+        for(int i = 0; i < size; i++){
+            array[i] = tempNode;
+            tempNode = tempNode.next;
         }
+        for(int i = 0; i < size; i++){
+            array[i].item = null;
+            array[i].next = null;
+        }
+        size = 0;
         first = null;
         last = null;
-        size = 0;
     }
 
     @Override
