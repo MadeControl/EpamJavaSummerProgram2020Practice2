@@ -3,7 +3,6 @@ package com.epam.rd.java.basic.practice2;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-
 public class ListImpl implements List {
 
     private Node<Object> first;
@@ -12,13 +11,6 @@ public class ListImpl implements List {
 
     public ListImpl() {
     }
-
-    public ListImpl(int initialCapacity) {
-        for(int i = 0; i < initialCapacity; i++){
-            addFirst(i);
-        } size = initialCapacity;
-    }
-
 
     @Override
     public  void clear() {
@@ -45,6 +37,8 @@ public class ListImpl implements List {
 
     private class IteratorImpl implements Iterator<Object> {
 
+        private Node<Object> lastReturned;
+        private Node<Object> next = first;
         private int cursor = 0;
 
         @Override
@@ -54,16 +48,31 @@ public class ListImpl implements List {
 
         @Override
         public Object next() {
-            if(cursor > size){
+            if (!hasNext()){
                 throw new NoSuchElementException();
             }
-            Node<Object> tempNode = first;
-            for(int i = 0; i < cursor; i++){
-                tempNode = tempNode.next;
-            } cursor++;
-            return tempNode.item;
+            lastReturned = next;
+            if(cursor < size){
+                next = next.next;
+            }
+            cursor++;
+            return lastReturned.item;
         }
 
+        @Override
+        public void remove() {
+
+            Node<Object> lastNext = lastReturned.next;
+            unlink(lastReturned);
+            if (next == lastReturned){
+                next = lastNext;
+            }
+            else {
+                cursor--;
+            }
+            lastReturned = null;
+
+        }
     }
 
     private static class Node<E> {
@@ -154,12 +163,12 @@ public class ListImpl implements List {
 
     @Override
     public String toString() {
-        Object[] array = this.toArray();
 
-        int iMax = array.length - 1;
+        int iMax = size - 1;
         if (iMax == -1) {
             return "[]";
         }
+        Object[] array = this.toArray();
 
         StringBuilder b = new StringBuilder();
         b.append('[');
@@ -235,7 +244,11 @@ public class ListImpl implements List {
         Node<Object> prevNode = null;
         while (!x.equals(curNode)){
             prevNode = curNode;
-            curNode = curNode.next;
+            if (curNode.next != null){
+                curNode = curNode.next;
+            } else {
+                break;
+            }
         } return  prevNode;
     }
 
@@ -262,8 +275,9 @@ public class ListImpl implements List {
     private Object[] toArray() {
         Object[] result = new Object[size];
         int i = 0;
-        for (Node<Object> x = first; x != null; x = x.next)
+        for (Node<Object> x = first; x != null; x = x.next){
             result[i++] = x.item;
+        }
         return result;
     }
 

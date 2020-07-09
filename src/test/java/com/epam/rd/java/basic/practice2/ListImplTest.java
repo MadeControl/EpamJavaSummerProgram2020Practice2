@@ -69,6 +69,7 @@ public class ListImplTest {
     public void removeLastTest(){
 
         ListImpl list =  new ListImpl();
+        list.addFirst("1");
         list.removeLast();
         Assert.assertEquals("[]", list.toString());
 
