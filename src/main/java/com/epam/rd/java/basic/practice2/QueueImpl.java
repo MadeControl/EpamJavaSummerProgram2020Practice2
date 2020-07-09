@@ -6,17 +6,29 @@ import static com.epam.rd.java.basic.practice2.ArrayImpl.getString;
 
 public class QueueImpl implements Queue {
 
-    private Object[] queue;
+    private int front = 0;
+    private int rear = 0;
+
+    private final int capacity;
+
     private int size = 0;
 
+    private Object[] array;
+
     public QueueImpl() {
-        queue = new Object[10];
+        this.capacity = 10;
+        array = new Object[capacity];
+    }
+
+    public QueueImpl(int capacity) {
+        this.capacity = capacity;
+        array = new Object[capacity];
     }
 
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
-            queue[i] = null;
+            array[i] = null;
         }
         size = 0;
     }
@@ -42,7 +54,7 @@ public class QueueImpl implements Queue {
         @Override
         public Object next() {
             if (cursor < size){
-                return queue[cursor++];
+                return array[cursor++];
             }
             throw new NoSuchElementException();
         }
@@ -51,38 +63,67 @@ public class QueueImpl implements Queue {
 
     @Override
     public void enqueue(Object element) {
-        if (element == null){
-            throw new NullPointerException();
+//        if (element == null){
+//            throw new NullPointerException();
+//        }
+//        if (size >= array.length) {
+//            grow();
+//        }
+//        array[size++] = element;
+
+        if (capacity != rear) {
+            array[rear] = element;
+            rear++;
         }
-        if (size >= queue.length) {
-            grow();
-        }
-        queue[size++] = element;
+
+        ++size;
     }
 
     @Override
     public Object dequeue() {
-        if (size == 0){
-            throw new NoSuchElementException();
-        } Object object = queue[0];
-        Object[] newQueue = new Object[queue.length];
-        System.arraycopy(queue, 1, newQueue, 0, --size);
-        queue = newQueue;
-        return object;
+//        if (size == 0){
+//            throw new NoSuchElementException();
+//        }
+//        Object object = queue[0];
+//        Object[] newQueue = new Object[queue.length];
+//        System.arraycopy(queue, 1, newQueue, 0, --size);
+//        queue = newQueue;
+//        return object;
+
+        if (array == null || array.length <= 0){
+            return null;
+        }
+        Object head = array[0];
+        if (front != rear) {
+            if (rear - 1 >= 0){
+                System.arraycopy(array, 1, array, 0, rear - 1);
+            }
+            if (rear < capacity){
+                array[rear] = null;
+            }
+            rear--;
+        }
+        --size;
+        return head;
     }
 
     @Override
     public Object top() {
-        if (size == 0){
-            return null;
-        }
-        return queue[0];
+//        if (size == 0){
+//            return null;
+//        }
+//        return queue[0];
+
+        if (front != rear)
+            return array[0];
+
+        return null;
     }
 
     @Override
     public String toString() {
 
-        return getString(size, queue);
+        return getString(size, array);
     }
 
     public static void main(String[] args) {
@@ -98,12 +139,12 @@ public class QueueImpl implements Queue {
     }
 
     private void grow() {
-        int oldCapacity = queue.length;
+        int oldCapacity = array.length;
         int newCapacity = oldCapacity + 3;
 
-        Object[] oldQueue = queue;
-        queue = new Object[newCapacity];
-        System.arraycopy(oldQueue, 0, queue, 0, oldQueue.length);
+        Object[] oldQueue = array;
+        array = new Object[newCapacity];
+        System.arraycopy(oldQueue, 0, array, 0, oldQueue.length);
     }
 
 }

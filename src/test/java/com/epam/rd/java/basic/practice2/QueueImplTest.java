@@ -11,6 +11,7 @@ public class QueueImplTest {
     @Test
     public void clearTest(){
 
+        queue.clear();
         Assert.assertEquals("[]", queue.toString());
 
     }
@@ -18,7 +19,8 @@ public class QueueImplTest {
     @Test
     public void sizeTest(){
 
-        Assert.assertEquals(0, queue.size());
+        queue.enqueue("1");
+        Assert.assertEquals(1, queue.size());
 
     }
 
