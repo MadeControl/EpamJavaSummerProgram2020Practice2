@@ -18,10 +18,13 @@ public class ListImpl implements List {
                 temp1Node.item = null;
                 temp1Node.next = null;
                 temp1Node = temp2Node;
-                temp2Node = temp2Node.next;
+                if(temp2Node.next != null){
+                    temp2Node = temp2Node.next;
+                }
             }
         }
-        first = last = null;
+        first = null;
+        last = null;
         size = 0;
     }
 
