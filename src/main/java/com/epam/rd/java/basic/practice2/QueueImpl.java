@@ -13,10 +13,6 @@ public class QueueImpl implements Queue {
         queue = new Object[10];
     }
 
-    public QueueImpl(int initialCapacity) {
-        queue = new Object[initialCapacity];
-    }
-
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
